@@ -1,6 +1,7 @@
 ## Article Scraping
 
 # Import Splinter and BeautifulSoup
+from inspect import Attribute
 from splinter import Browser
 from bs4 import BeautifulSoup as soup
 from webdriver_manager.chrome import ChromeDriverManager
@@ -22,7 +23,9 @@ def scrape_all():
         "news_paragraph": news_paragraph,
         "featured_image": featured_image(browser),
         "facts": mars_facts(),
+        "hemispheres": hemispheres(browser),
         "last_modified": dt.datetime.now()
+        
     }
 
     # Stop webdriver and return data
@@ -104,7 +107,49 @@ def mars_facts(): #define function
 
     #convert to html, add bootstrap
     return df.to_html()
-    
+
+# Challenge part 2: append dictionaries from part 1 to the scraping app
+def hemispheres(browser):
+     #1. Use browser to visit the URL 
+    url = "https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars"
+    browser.visit(url)
+
+    # 2a. Create a list to hold the images and titles.
+    hemisphere_image_urls = []
+
+    # 3. Write code to retrieve the image urls and titles for each hemisphere.
+    # 3a. get the list of all hemispheres
+    links = browser.find_by_css('a.product-item h3')
+
+    # 3b. loop through the links, click link, find sample anchor return href
+    for index in range(len(links)):
+        
+        # 3c. find elements on each loop (avoids a stale element excception)
+        browser.find_by_css('a.product-item h3')[index].click()
+        hemisphere_data = scrape_hemisphere(browser.html)
+        hemisphere_image_urls.append(hemisphere_data)
+        #3g. navigate backwards
+        browser.back()
+
+    return hemisphere_image_urls
+
+def scrape_hemisphere(html_text):
+    #parse html text
+    hemisphere_soup = soup(html_text, "html.parser")
+
+    try:
+        title_element = hemisphere_soup.find("h2", class_="title").get_text()
+        sample_element = hemisphere_soup.find("a", text="Sample").get("href")
+    except AttributeError:
+        title_element = None
+        sample_element = None
+    hemispheres_dictionary = {
+        "title": title_element,
+        "img_url": sample_element
+    }
+    return hemispheres_dictionary
+
+
 # tell flask script is complete and ready for use
 if __name__ == "__main__":
     
