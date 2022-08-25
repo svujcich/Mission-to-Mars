@@ -1,2 +1,4 @@
-# Mission-to-Mars
-Webscraping to extract information from NASA'a Exploration Program website
+## Overview
+In this project, a python script uses flask to create a web application that curates an interactive webpage about Mars using data scraped from various sources. The app features a button, that when clicked, uses Splinter and Beautiful Soup together to automate visiting websites, and extracting various components, such as a recent article summary from [NASA Mars News](https://redplanetscience.com/), a recent Mars image from [Jet Propulsion Labratories](https://spaceimages-mars.com/), statistical information from [Galaxy Facts](https://galaxyfacts-mars.com/), and images of the hemispheres from [Astropedia](https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars). The extracted information is compiled into a Mongo Database, and the newly scraped content is displayed in a web browser. 
+
+![Screenshot (126)](https://user-images.githubusercontent.com/106559768/186555071-fb5a8022-e35f-4923-ae77-e9fce488d22b.png)
