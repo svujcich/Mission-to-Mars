@@ -60,15 +60,15 @@ img_url_rel
 img_url = f'https://spaceimages-mars.com/{img_url_rel}'
 img_url
 
-df = pd.read_html('https://galaxyfacts-mars.com')[0]
-df.head()
+# Mars Facts
+# access the table from the website
+df = pd.read_html('https://galaxyfacts-mars.com', header=0)[0]
+# Customize the column names
+new_df = df.set_axis(['Characteristic', 'Mars', 'Earth'], axis=1, inplace=False)
+#drop the name of the index
+new_df = new_df.set_index('Characteristic',drop=True)
 
-df.columns=['Description', 'Mars', 'Earth']
-df.set_index('Description', inplace=True)
-df
-
-df.to_html()
-
+new_df.to_html()
 
 
 # D1: Scrape High-Resolution Mars’ Hemisphere Images and Titles
