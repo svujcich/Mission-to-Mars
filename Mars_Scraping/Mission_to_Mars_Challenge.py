@@ -62,7 +62,7 @@ img_url
 
 # Mars Facts
 # access the table from the website
-df = pd.read_html('https://galaxyfacts-mars.com', header=0)[0]
+df = pd.read_html('https://galaxyfacts-mars.com')[0]
 # Customize the column names
 new_df = df.set_axis(['Characteristic', 'Mars', 'Earth'], axis=1, inplace=False)
 #drop the name of the index

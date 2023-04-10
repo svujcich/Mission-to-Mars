@@ -95,16 +95,15 @@ def featured_image(browser): #declare and define function
 def mars_facts(): #define function
     try:
         # use 'read_html" to scrape the facts table into a dataframe
-        df = pd.read_html('https://galaxyfacts-mars.com')[0]
+        df = pd.read_html('https://galaxyfacts-mars.com', header=0)[0]
     
     except BaseException:
       return None
 
     # Assign columns and set index of dataframe
-    df.columns=['description', 'Mars', 'Earth']
-    df.set_index('description', inplace=True)
-       
-
+    df = df.set_axis(['Characteristic', 'Mars', 'Earth'], axis=1, inplace=False)
+    df = df.set_index('Characteristic',drop=True)
+   
     #convert to html, add bootstrap
     return df.to_html()
 
